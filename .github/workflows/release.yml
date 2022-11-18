@@ -14,9 +14,8 @@ jobs:
       - name: package
         run: |
           mkdir -p ${{ env.LINUX_OUTPUT_PATH }}
-          cp README.md ${{ env.LINUX_OUTPUT_PATH }}
-          tar -zcvpf ${{ env.LINUX_ARTIFACT_NAME }}
-            ${{ env.LINUX_OUTPUT_PATH }}
+          cp README.md ${{ env.LINUX_OUTPUT_PATH }}/README.md
+          tar -zcvpf ${{ env.LINUX_ARTIFACT_NAME }} ${{ env.LINUX_OUTPUT_PATH }}
       - name: create release
         uses: softprops/action-gh-release@v1
         with:
