@@ -2,21 +2,29 @@ name: release
 
 on:
   workflow_dispatch:
+    inputs:
+      versio:
+        description: 'version'
+        required: true
+        default: '1.0.0'
 
 jobs:
   build-release:
     runs-on: ubuntu-latest
     env:
-      LINUX_OUTPUT_PATH: release
-      LINUX_ARTIFACT_NAME: release.tar.gz
+      VERSION: ${{ github.event.inputs.version }}
+      OUTPUT_PATH: release
+      ARTIFACT_NAME: release.tar.gz
     steps:
       - uses: actions/checkout@v3
       - name: package
         run: |
-          mkdir -p ${{ env.LINUX_OUTPUT_PATH }}
-          cp README.md ${{ env.LINUX_OUTPUT_PATH }}/README.md
-          tar -zcvpf ${{ env.LINUX_ARTIFACT_NAME }} ${{ env.LINUX_OUTPUT_PATH }}
+          mkdir -p ${{ env.OUTPUT_PATH }}
+          cp README.md ${{ env.OUTPUT_PATH }}/README.md
+          tar -zcvpf ${{ env.ARTIFACT_NAME }} ${{ env.OUTPUT_PATH }}
       - name: create release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.LINUX_ARTIFACT_NAME }}
+          name:  v${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
+          files: ${{ env.ARTIFACT_NAME }}
