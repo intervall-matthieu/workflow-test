@@ -26,5 +26,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name:  v${{ env.VERSION }}
-          tag_name: v${{ env.VERSION }}
           files: ${{ env.ARTIFACT_NAME }}
